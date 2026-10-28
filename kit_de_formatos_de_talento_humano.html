@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit de Formatos de Talento Humano</title>
+  <style>
+    /* RESET & VARS */
+    :root {
+      --primary: #1e3a8a;
+      --primary-hover: #1e40af;
+      --secondary: #0f766e;
+      --bg-slate: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --sidebar-width: 320px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* LAYOUT STRUCTURE */
+    #app-container {
+      display: flex;
+      width: 100%;
+    }
+
+    /* SIDEBAR */
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 1.25rem;
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .sidebar-header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-header p {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .sidebar-section {
+      padding: 1rem 0.5rem;
+    }
+
+    .sidebar-section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      padding: 0.5rem 0.75rem;
+      font-weight: 700;
+    }
+
+    .nav-item {
+      display: block;
+      padding: 0.65rem 0.75rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      margin-bottom: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-item:hover {
+      background-color: #1e293b;
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* MAIN CONTENT AREA */
+    #main-content {
+      flex-grow: 1;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* TOP GLOBAL CONTROLS PANEL */
+    .panel-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+    }
+
+    .grid-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .form-control {
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+    }
+
+    /* TOOLBAR BUTTONS */
+    .toolbar-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .btn-secondary { background: var(--secondary); color: white; }
+    .btn-secondary:hover { opacity: 0.9; }
+
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-danger:hover { background: #dc2626; }
+
+    .btn-outline { background: white; border: 1px solid var(--border-color); color: var(--text-main); }
+    .btn-outline:hover { background: #f1f5f9; }
+
+    /* FORM HEADER ISO STYLED TABLE */
+    .iso-header {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+      background: white;
+    }
+
+    .iso-header td {
+      border: 2px solid #000;
+      padding: 8px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .iso-logo-cell {
+      width: 20%;
+      height: 70px;
+    }
+
+    .iso-logo-img {
+      max-height: 60px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .iso-title-cell {
+      width: 55%;
+    }
+
+    .iso-company-name {
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .iso-doc-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 4px;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .iso-meta-cell {
+      width: 25%;
+      font-size: 0.75rem;
+      text-align: left !important;
+      padding: 4px 8px !important;
+    }
+
+    .iso-meta-line {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding: 2px 0;
+    }
+
+    .iso-meta-line:last-child {
+      border-bottom: none;
+    }
+
+    /* DYNAMIC FORM SHEETS */
+    .form-sheet {
+      background: white;
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    .form-section {
+      margin-bottom: 1.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 1rem;
+      background: #fafafa;
+    }
+
+    .form-section-head {
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: #f1f5f9;
+      margin: -1rem -1rem 1rem -1rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    /* FORM TABLES */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .data-table input[type="text"],
+    .data-table input[type="date"],
+    .data-table select {
+      width: 100%;
+      padding: 4px;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+    }
+
+    /* CHECKBOX GRID */
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    /* SIGNATURE BLOCK */
+    .signatures-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 2px dashed #cbd5e1;
+    }
+
+    .signature-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      background: #fff;
+    }
+
+    .signature-preview-box {
+      height: 90px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .signature-preview-box img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .signature-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+    }
+
+    .signature-role {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* TOGGLE & RESPONSIVE MOBILE MENU */
+    .mobile-nav-toggle {
+      display: none;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+
+    /* PRINT STYLES */
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      body {
+        background: white;
+        color: black;
+      }
+
+      #sidebar, .toolbar-actions, .panel-card, .mobile-nav-toggle, .btn-table-action, .upload-sign-btn {
+        display: none !important;
+      }
+
+      #main-content {
+        padding: 0;
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .form-sheet {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+
+      .form-section {
+        border: 1px solid #000;
+        background: none;
+        page-break-inside: avoid;
+      }
+
+      .form-section-head {
+        background: #eee;
+        color: #000;
+        border-bottom: 1px solid #000;
+      }
+
+      .form-control, input, select, textarea {
+        border: none !important;
+        background: transparent !important;
+        appearance: none;
+        padding: 0 !important;
+        font-size: 0.85rem !important;
+      }
+
+      .data-table th, .data-table td {
+        border: 1px solid #000 !important;
+      }
+
+      .signatures-container {
+        border-top: 1px solid #000;
+        page-break-inside: avoid;
+      }
+
+      .signature-card {
+        border: 1px solid #000;
+      }
+
+      .signature-preview-box {
+        border: none;
+      }
+    }
+
+    /* RESPONSIVE LAYOUT BREAKPOINTS */
+    @media (max-width: 768px) {
+      #app-container {
+        flex-direction: column;
+      }
+
+      #sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: none;
+      }
+
+      #sidebar.open {
+        display: flex;
+      }
+
+      .mobile-nav-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <h1>Talento Humano</h1>
+        <p>Kit de Formatos ISO / SG-SST</p>
+      </div>
+      <div id="sidebar-nav-content">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()">☰ Menú de Formatos</button>
+
+      <!-- TOP CONTROL PANEL & WORKER DATA -->
+      <div class="panel-card">
+        <div class="panel-title">
+          <span>Configuración y Datos Globales del Trabajador</span>
+          <span style="font-size:0.75rem; font-weight:normal; color:var(--text-muted);">Sincronización Automática</span>
+        </div>
+        
+        <div class="grid-fields" style="margin-bottom: 1rem;">
+          <div class="form-group">
+            <label>Nombre de la Empresa</label>
+            <input type="text" id="global-company-name" class="form-control" value="EMPRESA DE PRUEBA S.A.S." oninput="updateGlobalCompany(this.value)">
+          </div>
+          <div class="form-group">
+            <label>Logo de la Empresa</label>
+            <input type="file" id="global-logo-input" class="form-control" accept="image/*" onchange="uploadCompanyLogo(event)">
+          </div>
+        </div>
+
+        <div class="panel-title" style="font-size:0.85rem; margin-top: 0.5rem;">Datos del Trabajador (se copian automáticamente en todos los formatos)</div>
+        <div class="grid-fields">
+          <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="global-worker-name" class="form-control" placeholder="Ej: Juan Pérez" oninput="updateWorkerData()">
+          </div>
+          <div class="form-group">
+            <label>Número de Cédula / ID</label>
+            <input type="text" id="global-worker-id" class="form-control" placeholder="Ej: 1.098.765.432" oninput="updateWorkerData()">
+          </div>
+          <div class="form-group">
+            <label>Cargo</label>
+            <input type="text" id="global-worker-role" class="form-control" placeholder="Ej: Analista de Sistemas" oninput="updateWorkerData()">
+          </div>
+          <div class="form-group">
+            <label>Área / Departamento</label>
+            <input type="text" id="global-worker-area" class="form-control" placeholder="Ej: Tecnología" oninput="updateWorkerData()">
+          </div>
+          <div class="form-group">
+            <label>Jefe Inmediato</label>
+            <input type="text" id="global-worker-boss" class="form-control" placeholder="Ej: María Rodríguez" oninput="updateWorkerData()">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Ingreso</label>
+            <input type="date" id="global-worker-date" class="form-control" oninput="updateWorkerData()">
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="toolbar-actions">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Formato</button>
+        <button class="btn btn-secondary" onclick="exportDataJSON()">💾 Exportar Datos (JSON)</button>
+        <label class="btn btn-outline" style="cursor:pointer;">
+          📂 Importar Datos (JSON)
+          <input type="file" id="import-json-file" accept=".json" style="display:none;" onchange="importDataJSON(event)">
+        </label>
+        <button class="btn btn-danger" onclick="clearCurrentForm()">🧹 Limpiar Formato Actual</button>
+      </div>
+
+      <!-- CONTAINER WHERE ACTIVE FORM IS RENDERED -->
+      <div id="form-render-container"></div>
+    </main>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. DATA STRUCTURE: LIST OF HR FORMS GROUPED BY PROCESS
+       ========================================================================== */
+    const HR_FORMS_DATABASE = [
+      {
+        process: "Selección e Ingreso",
+        forms: [
+          {
+            id: "PRO-SEL-01",
+            code: "FOR-SEL-01",
+            version: "02",
+            date: "15/01/2025",
+            title: "Requisición de Personal",
+            fields: [
+              {
+                section: "1. Datos de la Vacante",
+                type: "grid",
+                items: [
+                  { label: "Cargo Solicitado", id: "req_cargo", type: "text" },
+                  { label: "Área / Departamento", id: "req_area", type: "text" },
+                  { label: "Número de Vacantes", id: "req_vacantes", type: "number" },
+                  { label: "Motivo de la Vacante", id: "req_motivo", type: "select", options: ["Nueva Creación", "Reemplazo / Vacante", "Aumento de Producción", "Licencia / Incapacidad"] },
+                  { label: "Jefe Inmediato", id: "req_jefe", type: "text", autoSync: "boss" }
+                ]
+              },
+              {
+                section: "2. Perfil del Cargo Requerido",
+                type: "grid",
+                items: [
+                  { label: "Nivel Académico", id: "req_estudios", type: "select", options: ["Bachiller", "Técnico", "Tecnólogo", "Profesional", "Especialización / Maestría"] },
+                  { label: "Años de Experiencia", id: "req_exp", type: "text" },
+                  { label: "Rango Salarial Tentativo", id: "req_salario", type: "text" },
+                  { label: "Tipo de Contrato", id: "req_contrato", type: "select", options: ["Fijo", "Indefinido", "Obra o Labor", "Aprendizaje"] }
+                ]
+              },
+              {
+                section: "3. Funciones Principales y Competencias",
+                type: "textarea",
+                id: "req_funciones",
+                placeholder: "Describa detalladamente las funciones principales del cargo y competencias clave..."
+              }
+            ],
+            signatures: ["Solicitante", "Jefe de Talento Humano", "Gerencia General"]
+          },
+          {
+            id: "PRO-SEL-02",
+            code: "FOR-SEL-02",
+            version: "01",
+            date: "10/02/2025",
+            title: "Lista de Chequeo de Inducción de Personal",
+            fields: [
+              {
+                section: "Información del Ingreso",
+                type: "grid",
+                items: [
+                  { label: "Nombre del Empleado", id: "ind_nombre", type: "text", autoSync: "worker" },
+                  { label: "Cédula / ID", id: "ind_cedula", type: "text", autoSync: "id" },
+                  { label: "Cargo", id: "ind_cargo", type: "text", autoSync: "role" },
+                  { label: "Fecha de Ingreso", id: "ind_fecha", type: "date", autoSync: "date" }
+                ]
+              },
+              {
+                section: "Módulos de Inducción General y Específica",
+                type: "checkboxes",
+                items: [
+                  { id: "chk_historia", label: "Historia, Misión y Visión de la Empresa" },
+                  { id: "chk_reglamento", label: "Reglamento Interno de Trabajo" },
+                  { id: "chk_politicas", label: "Políticas de Calidad y SG-SST" },
+                  { id: "chk_beneficios", label: "Plan de Beneficios y Salarios" },
+                  { id: "chk_puesto", label: "Presentación del Puesto y Equipo de Trabajo" },
+                  { id: "chk_epp", label: "Entrega de EPP e Inducción de Seguridad" },
+                  { id: "chk_ti", label: "Entrega de Herramientas Tecnológicas y Accesos" }
+                ]
+              }
+            ],
+            signatures: ["Empleado Inducido", "Responsable de Inducción"]
+          }
+        ]
+      },
+      {
+        process: "Formación y Desarrollo",
+        forms: [
+          {
+            id: "PRO-FOR-01",
+            code: "FOR-CAP-01",
+            version: "03",
+            date: "01/03/2025",
+            title: "Plan y Registro de Capacitación / Formación",
+            fields: [
+              {
+                section: "Datos de la Sesión de Capacitación",
+                type: "grid",
+                items: [
+                  { label: "Nombre del Tema / Evento", id: "cap_tema", type: "text" },
+                  { label: "Capacitador / Facilitador", id: "cap_facilitador", type: "text" },
+                  { label: "Fecha de Realización", id: "cap_fecha", type: "date" },
+                  { label: "Intensidad Horaria (Horas)", id: "cap_horas", type: "number" }
+                ]
+              },
+              {
+                section: "Control de Asistencia de Colaboradores",
+                type: "table",
+                tableId: "tabla_asistencia_capacitacion",
+                columns: ["Nombre del Trabajador", "Cédula", "Cargo / Área", "Firma / Confirmación"],
+                initialRows: 3
+              }
+            ],
+            signatures: ["Instructor / Capacitador", "Coordinador de Capacitación"]
+          }
+        ]
+      },
+      {
+        process: "Evaluación del Desempeño",
+        forms: [
+          {
+            id: "PRO-EVA-01",
+            code: "FOR-EVA-01",
+            version: "02",
+            date: "20/01/2025",
+            title: "Evaluación del Desempeño Laboral",
+            fields: [
+              {
+                section: "Datos del Evaluado",
+                type: "grid",
+                items: [
+                  { label: "Nombre del Empleado", id: "eva_nombre", type: "text", autoSync: "worker" },
+                  { label: "Cargo", id: "eva_cargo", type: "text", autoSync: "role" },
+                  { label: "Área", id: "eva_area", type: "text", autoSync: "area" },
+                  { label: "Jefe Evaluador", id: "eva_jefe", type: "text", autoSync: "boss" },
+                  { label: "Periodo Evaluado", id: "eva_periodo", type: "text" }
+                ]
+              },
+              {
+                section: "Criterios de Evaluación (Calificar de 1 a 5)",
+                type: "grid",
+                items: [
+                  { label: "Calidad del Trabajo", id: "eva_q1", type: "select", options: ["5 - Excelente", "4 - Sobresaliente", "3 - Aceptable", "2 - Requiere Mejora", "1 - Deficiente"] },
+                  { label: "Productividad y Oportunidad", id: "eva_q2", type: "select", options: ["5 - Excelente", "4 - Sobresaliente", "3 - Aceptable", "2 - Requiere Mejora", "1 - Deficiente"] },
+                  { label: "Trabajo en Equipo", id: "eva_q3", type: "select", options: ["5 - Excelente", "4 - Sobresaliente", "3 - Aceptable", "2 - Requiere Mejora", "1 - Deficiente"] },
+                  { label: "Compromiso e Iniciativa", id: "eva_q4", type: "select", options: ["5 - Excelente", "4 - Sobresaliente", "3 - Aceptable", "2 - Requiere Mejora", "1 - Deficiente"] }
+                ]
+              },
+              {
+                section: "Compromisos y Plan de Mejora",
+                type: "textarea",
+                id: "eva_compromisos",
+                placeholder: "Acuerdos y planes de acción priorizados para el siguiente periodo..."
+              }
+            ],
+            signatures: ["Empleado Evaluado", "Jefe Evaluador"]
+          }
+        ]
+      },
+      {
+        process: "SST / Salud Ocupacional",
+        forms: [
+          {
+            id: "PRO-SST-01",
+            code: "FOR-SST-01",
+            version: "04",
+            date: "05/02/2025",
+            title: "Registro de Entrega de EPP y Dotación",
+            fields: [
+              {
+                section: "Datos del Colaborador",
+                type: "grid",
+                items: [
+                  { label: "Nombre Completo", id: "epp_nombre", type: "text", autoSync: "worker" },
+                  { label: "Cédula", id: "epp_cedula", type: "text", autoSync: "id" },
+                  { label: "Cargo", id: "epp_cargo", type: "text", autoSync: "role" },
+                  { label: "Área", id: "epp_area", type: "text", autoSync: "area" }
+                ]
+              },
+              {
+                section: "Elementos Entregados",
+                type: "table",
+                tableId: "tabla_epp_elementos",
+                columns: ["Descripción del EPP / Dotación", "Cantidad", "Talla / Especificación", "Fecha Entrega"],
+                initialRows: 4
+              }
+            ],
+            signatures: ["Trabajador Receptor", "Responsable SG-SST"]
+          }
+        ]
+      },
+      {
+        process: "Retiro y Desvinculación",
+        forms: [
+          {
+            id: "PRO-DES-01",
+            code: "FOR-DES-01",
+            version: "01",
+            date: "12/01/2025",
+            title: "Paz y Salvo de Desvinculación Laboral",
+            fields: [
+              {
+                section: "Información General",
+                type: "grid",
+                items: [
+                  { label: "Nombre del Colaborador", id: "paz_nombre", type: "text", autoSync: "worker" },
+                  { label: "Cédula de Ciudadanía", id: "paz_cedula", type: "text", autoSync: "id" },
+                  { label: "Último Cargo Desempeñado", id: "paz_cargo", type: "text", autoSync: "role" },
+                  { label: "Fecha de Retiro", id: "paz_fecha", type: "date" }
+                ]
+              },
+              {
+                section: "Aprobación de Áreas (Paz y Salvo Conceptos)",
+                type: "checkboxes",
+                items: [
+                  { id: "paz_ti", label: "Tecnología: Devolución de Laptop, Accesos y Correos" },
+                  { id: "paz_gestion", label: "Gestión Humana: Carnet, Paz y Salvo Documental" },
+                  { id: "paz_contabilidad", label: "Contabilidad: Anticpos, Viáticos y Cuentas" },
+                  { id: "paz_operaciones", label: "Operaciones: Entrega de Puesto y Herramientas" }
+                ]
+              }
+            ],
+            signatures: ["Trabajador Retirado", "Líder de Talento Humano"]
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       2. STATE & INITIALIZATION
+       ========================================================================== */
+    let currentFormId = "PRO-SEL-01";
+    let companyLogoData = "";
+    let globalCompanyName = "EMPRESA DE PRUEBA S.A.S.";
+
+    let workerState = {
+      name: "",
+      id: "",
+      role: "",
+      area: "",
+      boss: "",
+      date: ""
+    };
+
+    // Default Fallback SVG Logo
+    const DEFAULT_SVG_LOGO = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60"><rect width="100%" height="100%" fill="%23f1f5f9"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" fill="%2364748b" font-family="sans-serif">LOGO EMPRESA</text></svg>`;
+
+    window.onload = function() {
+      loadLocalStorageData();
+      renderSidebarMenu();
+      renderActiveForm();
+    };
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("open");
+    }
+
+    /* ==========================================================================
+       3. RENDER NAVIGATION SIDEBAR
+       ========================================================================== */
+    function renderSidebarMenu() {
+      const navContainer = document.getElementById("sidebar-nav-content");
+      let html = "";
+
+      HR_FORMS_DATABASE.forEach(group => {
+        html += `<div class="sidebar-section">`;
+        html += `<div class="sidebar-section-title">${group.process}</div>`;
+        group.forms.forEach(form => {
+          const activeClass = form.id === currentFormId ? "active" : "";
+          html += `
+            <a class="nav-item ${activeClass}" onclick="switchForm('${form.id}')">
+              [${form.code}] ${form.title}
+            </a>
+          `;
+        });
+        html += `</div>`;
+      });
+
+      navContainer.innerHTML = html;
+    }
+
+    function switchForm(formId) {
+      currentFormId = formId;
+      renderSidebarMenu();
+      renderActiveForm();
+      const sidebar = document.getElementById("sidebar");
+      if (sidebar.classList.contains("open")) {
+        sidebar.classList.remove("open");
+      }
+    }
+
+    /* ==========================================================================
+       4. GLOBAL WORKER & COMPANY DATA SYNC
+       ========================================================================== */
+    function updateGlobalCompany(val) {
+      globalCompanyName = val || "EMPRESA DE PRUEBA S.A.S.";
+      document.querySelectorAll(".iso-company-name").forEach(el => el.textContent = globalCompanyName);
+      saveLocalStorageData();
+    }
+
+    function uploadCompanyLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          companyLogoData = e.target.result;
+          document.querySelectorAll(".iso-logo-img").forEach(img => img.src = companyLogoData);
+          saveLocalStorageData();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updateWorkerData() {
+      workerState.name = document.getElementById("global-worker-name").value;
+      workerState.id = document.getElementById("global-worker-id").value;
+      workerState.role = document.getElementById("global-worker-role").value;
+      workerState.area = document.getElementById("global-worker-area").value;
+      workerState.boss = document.getElementById("global-worker-boss").value;
+      workerState.date = document.getElementById("global-worker-date").value;
+
+      // Sync into rendered active form fields that have autoSync active
+      syncFieldsWithGlobalWorker();
+      saveLocalStorageData();
+    }
+
+    function syncFieldsWithGlobalWorker() {
+      document.querySelectorAll("[data-autosync]").forEach(input => {
+        const key = input.getAttribute("data-autosync");
+        if (workerState[key] !== undefined) {
+          input.value = workerState[key];
+        }
+      });
+    }
+
+    /* ==========================================================================
+       5. RENDER ACTIVE FORM SHEET
+       ========================================================================== */
+    function getFormDefinition(formId) {
+      for (let group of HR_FORMS_DATABASE) {
+        for (let form of group.forms) {
+          if (form.id === formId) return form;
+        }
+      }
+      return null;
+    }
+
+    function renderActiveForm() {
+      const formDef = getFormDefinition(currentFormId);
+      const container = document.getElementById("form-render-container");
+
+      if (!formDef) {
+        container.innerHTML = "<p>Formato no encontrado.</p>";
+        return;
+      }
+
+      const logoSrc = companyLogoData || DEFAULT_SVG_LOGO;
+
+      let html = `
+        <div class="form-sheet">
+          <!-- ISO ISO-HEADER BLOCK -->
+          <table class="iso-header">
+            <tr>
+              <td class="iso-logo-cell">
+                <img src="${logoSrc}" class="iso-logo-img" alt="Logo Empresa">
+              </td>
+              <td class="iso-title-cell">
+                <div class="iso-company-name">${globalCompanyName}</div>
+                <div class="iso-doc-title">${formDef.title}</div>
+              </td>
+              <td class="iso-meta-cell">
+                <div class="iso-meta-line"><span><b>Código:</b></span> <span>${formDef.code}</span></div>
+                <div class="iso-meta-line"><span><b>Versión:</b></span> <span>${formDef.version}</span></div>
+                <div class="iso-meta-line"><span><b>Fecha:</b></span> <span>${formDef.date}</span></div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- FORM BODY FIELDS -->
+          <form id="active-dynamic-form" onchange="saveLocalStorageData()">
+      `;
+
+      // Render Dynamic Sections
+      formDef.fields.forEach((fieldGroup, idx) => {
+        html += `<div class="form-section">`;
+        if (fieldGroup.section) {
+          html += `<div class="form-section-head">${fieldGroup.section}</div>`;
+        }
+
+        if (fieldGroup.type === "grid") {
+          html += `<div class="grid-fields">`;
+          fieldGroup.items.forEach(item => {
+            const syncAttr = item.autoSync ? `data-autosync="${item.autoSync}"` : "";
+            html += `<div class="form-group">`;
+            html += `<label>${item.label}</label>`;
+
+            if (item.type === "select") {
+              html += `<select id="${item.id}" class="form-control" ${syncAttr}>`;
+              item.options.forEach(opt => {
+                html += `<option value="${opt}">${opt}</option>`;
+              });
+              html += `</select>`;
+            } else {
+              html += `<input type="${item.type || 'text'}" id="${item.id}" class="form-control" ${syncAttr}>`;
+            }
+            html += `</div>`;
+          });
+          html += `</div>`;
+        } else if (fieldGroup.type === "textarea") {
+          html += `
+            <div class="form-group">
+              <textarea id="${fieldGroup.id}" class="form-control" rows="4" placeholder="${fieldGroup.placeholder || ''}"></textarea>
+            </div>
+          `;
+        } else if (fieldGroup.type === "checkboxes") {
+          html += `<div class="checkbox-group">`;
+          fieldGroup.items.forEach(chk => {
+            html += `
+              <label class="checkbox-item">
+                <input type="checkbox" id="${chk.id}"> ${chk.label}
+              </label>
+            `;
+          });
+          html += `</div>`;
+        } else if (fieldGroup.type === "table") {
+          html += `
+            <table class="data-table" id="${fieldGroup.tableId}">
+              <thead>
+                <tr>
+                  ${fieldGroup.columns.map(col => `<th>${col}</th>`).join('')}
+                  <th style="width:40px;" class="btn-table-action"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Rows injected dynamically -->
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-outline btn-table-action" style="font-size:0.75rem;" onclick="addTableRow('${fieldGroup.tableId}')">+ Agregar Fila</button>
+          `;
+        }
+
+        html += `</div>`;
+      });
+
+      // Render Signatures
+      if (formDef.signatures && formDef.signatures.length > 0) {
+        html += `<div class="signatures-container">`;
+        formDef.signatures.forEach((sigRole, index) => {
+          const sigId = `sig_img_${index}`;
+          html += `
+            <div class="signature-card">
+              <div class="signature-label">${sigRole}</div>
+              <div class="signature-preview-box" id="box_${sigId}">
+                <span style="font-size:0.75rem; color:#94a3b8;">Sin Firma</span>
+              </div>
+              <label class="btn btn-outline upload-sign-btn" style="font-size:0.75rem; width:100%; justify-content:center; cursor:pointer;">
+                ✒️ Cargar Firma
+                <input type="file" accept="image/*" style="display:none;" onchange="uploadSignature(event, '${sigId}')">
+              </label>
+              <div class="signature-role" style="margin-top:4px;">Firma Digital / Autógrafa</div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      html += `</form></div>`;
+
+      container.innerHTML = html;
+
+      // Post-render table initial setup & autosync restore
+      formDef.fields.forEach(fieldGroup => {
+        if (fieldGroup.type === "table") {
+          for (let i = 0; i < (fieldGroup.initialRows || 2); i++) {
+            addTableRow(fieldGroup.tableId);
+          }
+        }
+      });
+
+      syncFieldsWithGlobalWorker();
+      restoreSavedFormData();
+    }
+
+    /* ==========================================================================
+       6. DYNAMIC TABLE ROW MANAGEMENT
+       ========================================================================== */
+    function addTableRow(tableId) {
+      const table = document.getElementById(tableId);
+      if (!table) return;
+      const tbody = table.querySelector("tbody");
+      const colCount = table.querySelectorAll("thead th").length - 1;
+
+      const row = document.createElement("tr");
+      for (let i = 0; i < colCount; i++) {
+        const td = document.createElement("td");
+        td.innerHTML = `<input type="text" class="form-control">`;
+        row.appendChild(td);
+      }
+
+      const actionTd = document.createElement("td");
+      actionTd.className = "btn-table-action";
+      actionTd.innerHTML = `<button type="button" class="btn btn-danger" style="padding:2px 6px; font-size:0.7rem;" onclick="removeTableRow(this)">X</button>`;
+      row.appendChild(actionTd);
+
+      tbody.appendChild(row);
+    }
+
+    function removeTableRow(btn) {
+      const row = btn.closest("tr");
+      row.remove();
+      saveLocalStorageData();
+    }
+
+    /* ==========================================================================
+       7. SIGNATURE UPLOAD MANAGEMENT
+       ========================================================================== */
+    function uploadSignature(event, sigId) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const box = document.getElementById(`box_${sigId}`);
+          box.innerHTML = `<img src="${e.target.result}" id="${sigId}" alt="Firma">`;
+          saveLocalStorageData();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    /* ==========================================================================
+       8. STORAGE (LOCALSTORAGE) PERSISTENCE
+       ========================================================================== */
+    function getStorageKey() {
+      return `HR_KIT_DATA_${currentFormId}`;
+    }
+
+    function saveLocalStorageData() {
+      // Save global configs
+      localStorage.setItem("HR_KIT_GLOBAL_COMPANY", globalCompanyName);
+      localStorage.setItem("HR_KIT_GLOBAL_LOGO", companyLogoData);
+      localStorage.setItem("HR_KIT_GLOBAL_WORKER", JSON.stringify(workerState));
+
+      // Save form-specific active fields
+      const form = document.getElementById("active-dynamic-form");
+      if (!form) return;
+
+      const formData = {};
+
+      // Inputs, Textareas, Selects
+      form.querySelectorAll("input:not([type='file']), textarea, select").forEach(input => {
+        if (input.id) {
+          if (input.type === "checkbox") {
+            formData[input.id] = input.checked;
+          } else {
+            formData[input.id] = input.value;
+          }
+        }
+      });
+
+      // Dynamic Table Data
+      form.querySelectorAll("table.data-table").forEach(table => {
+        const tableData = [];
+        table.querySelectorAll("tbody tr").forEach(tr => {
+          const rowVals = [];
+          tr.querySelectorAll("input").forEach(inp => rowVals.push(inp.value));
+          tableData.push(rowVals);
+        });
+        formData[table.id] = tableData;
+      });
+
+      // Signatures
+      form.querySelectorAll(".signature-preview-box img").forEach(img => {
+        if (img.id && img.src) {
+          formData[img.id] = img.src;
+        }
+      });
+
+      localStorage.setItem(getStorageKey(), JSON.stringify(formData));
+    }
+
+    function restoreSavedFormData() {
+      const savedRaw = localStorage.getItem(getStorageKey());
+      if (!savedRaw) return;
+
+      try {
+        const formData = JSON.parse(savedRaw);
+
+        // Restore standard fields
+        Object.keys(formData).forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            if (el.type === "checkbox") {
+              el.checked = formData[id];
+            } else {
+              el.value = formData[id];
+            }
+          }
+        });
+
+        // Restore Dynamic Tables
+        document.querySelectorAll("table.data-table").forEach(table => {
+          if (formData[table.id] && Array.isArray(formData[table.id])) {
+            const tbody = table.querySelector("tbody");
+            tbody.innerHTML = ""; // clear initial rows
+            formData[table.id].forEach(rowValues => {
+              addTableRow(table.id);
+              const lastRow = tbody.lastElementChild;
+              const inputs = lastRow.querySelectorAll("input");
+              rowValues.forEach((val, idx) => {
+                if (inputs[idx]) inputs[idx].value = val;
+              });
+            });
+          }
+        });
+
+        // Restore Signatures
+        Object.keys(formData).forEach(key => {
+          if (key.startsWith("sig_img_")) {
+            const box = document.getElementById(`box_${key}`);
+            if (box) {
+              box.innerHTML = `<img src="${formData[key]}" id="${key}" alt="Firma">`;
+            }
+          }
+        });
+
+      } catch(e) {
+        console.error("Error al restaurar datos:", e);
+      }
+    }
+
+    function loadLocalStorageData() {
+      const savedCompany = localStorage.getItem("HR_KIT_GLOBAL_COMPANY");
+      if (savedCompany) {
+        globalCompanyName = savedCompany;
+        document.getElementById("global-company-name").value = savedCompany;
+      }
+
+      const savedLogo = localStorage.getItem("HR_KIT_GLOBAL_LOGO");
+      if (savedLogo) {
+        companyLogoData = savedLogo;
+      }
+
+      const savedWorker = localStorage.getItem("HR_KIT_GLOBAL_WORKER");
+      if (savedWorker) {
+        try {
+          workerState = JSON.parse(savedWorker);
+          document.getElementById("global-worker-name").value = workerState.name || "";
+          document.getElementById("global-worker-id").value = workerState.id || "";
+          document.getElementById("global-worker-role").value = workerState.role || "";
+          document.getElementById("global-worker-area").value = workerState.area || "";
+          document.getElementById("global-worker-boss").value = workerState.boss || "";
+          document.getElementById("global-worker-date").value = workerState.date || "";
+        } catch(e){}
+      }
+    }
+
+    function clearCurrentForm() {
+      if (confirm("¿Está seguro de limpiar todos los datos del formato actual?")) {
+        localStorage.removeItem(getStorageKey());
+        renderActiveForm();
+      }
+    }
+
+    /* ==========================================================================
+       9. EXPORT & IMPORT JSON
+       ========================================================================== */
+    function exportDataJSON() {
+      saveLocalStorageData();
+      const fullExport = {
+        companyName: globalCompanyName,
+        logo: companyLogoData,
+        worker: workerState,
+        formId: currentFormId,
+        formData: JSON.parse(localStorage.getItem(getStorageKey()) || "{}")
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullExport, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `TalentoHumano_${currentFormId}_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importDataJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.companyName) {
+            globalCompanyName = imported.companyName;
+            document.getElementById("global-company-name").value = globalCompanyName;
+          }
+          if (imported.logo) {
+            companyLogoData = imported.logo;
+          }
+          if (imported.worker) {
+            workerState = imported.worker;
+            document.getElementById("global-worker-name").value = workerState.name || "";
+            document.getElementById("global-worker-id").value = workerState.id || "";
+            document.getElementById("global-worker-role").value = workerState.role || "";
+            document.getElementById("global-worker-area").value = workerState.area || "";
+            document.getElementById("global-worker-boss").value = workerState.boss || "";
+            document.getElementById("global-worker-date").value = workerState.date || "";
+          }
+
+          if (imported.formId && imported.formData) {
+            currentFormId = imported.formId;
+            localStorage.setItem(`HR_KIT_DATA_${imported.formId}`, JSON.stringify(imported.formData));
+          }
+
+          renderSidebarMenu();
+          renderActiveForm();
+          alert("¡Datos importados con éxito!");
+        } catch(err) {
+          alert("Error al importar el archivo JSON. Verifique el formato.");
+        }
+      };
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>
